@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <footer
-        data-aos='fade-top'
+        data-aos='fade-up'
         className='footer p-10 bg-base-200 text-base-content'
       >
         <div>

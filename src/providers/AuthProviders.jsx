@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
@@ -56,6 +57,18 @@ const AuthProviders = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      if (currentUser) {
+        axios.post("https://learlab-server-assignement.vercel.app/jwt", {
+          email: currentUser?.email
+        }).then(res => {
+          localStorage.setItem("token", res.data)
+          setLoading(false)
+        })
+      } else{
+        localStorage.removeItem("token")
+        setLoading(false)
+      }
+
       setLoading(false);
       return () => unsubscribe();
     });

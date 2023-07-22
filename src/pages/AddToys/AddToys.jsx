@@ -56,6 +56,7 @@ const AddToys = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
+          e.target.reset()
           Swal.fire({
             title: "Toy Added Successfully !",
             text: "Do you want to continue",

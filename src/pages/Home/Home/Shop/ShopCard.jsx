@@ -29,11 +29,12 @@ const ShopCard = ({ toy, getSingleToy }) => {
 
   return (
     <div
-      data-aos='fade-top'
+      data-aos='fade-up'
+      data-aos-anchor-placement="bottom-bottom"
       className='w-full rounded-lg shadow p-8 bg-base-200'
     >
       <img
-        className=' h-96  w-full rounded-lg hover:scale-105 duration-500 ease-in-out transition-transform'
+        className=' h-48 w-full rounded-lg hover:scale-105 duration-500 ease-in-out transition-transform'
         src={picture}
         alt='product image'
       />

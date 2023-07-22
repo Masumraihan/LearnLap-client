@@ -43,12 +43,11 @@ const MyToys = () => {
 
   const handleUpdateToy = (price, quantity, description) => {
     if (isNaN(price)) {
-      console.log("error");
       Swal.fire({
         title: "Error!",
         text: "price should be number",
         icon: "error",
-        confirmButtonColor:"#08a5eb",
+        confirmButtonColor: "#08a5eb",
         confirmButtonText: "Ok",
       });
       return;
@@ -58,7 +57,7 @@ const MyToys = () => {
         title: "Error!",
         text: "quantity should be number",
         icon: "error",
-        confirmButtonColor:"#08a5eb",
+        confirmButtonColor: "#08a5eb",
         confirmButtonText: "Ok",
       });
       return;
@@ -82,7 +81,7 @@ const MyToys = () => {
             title: "Your Toy Updated",
             text: "Do you want to continue",
             icon: "success",
-            confirmButtonColor:"#08a5eb",
+            confirmButtonColor: "#08a5eb",
             confirmButtonText: "Thank You",
           });
           const remaining = myToys.filter((toy) => toy._id !== toyId);
@@ -97,9 +96,14 @@ const MyToys = () => {
 
   useEffect(() => {
     fetch(
-      `https://learlab-server-assignement.vercel.app/myToys?email=${
-        user?.email
-      }&sortBy=${parseFloat(sortBy)}`
+      `https://learlab-server-assignement.vercel.app/myToys?email=${user?.email
+      }&sortBy=${parseFloat(sortBy)}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`
+      },
+
+    }
     )
       .then((res) => res.json())
       .then((data) => {
@@ -109,7 +113,15 @@ const MyToys = () => {
 
   return (
     <>
-      <div className='my-10 container mx-auto '>
+      <div>
+        <h1
+          className={`text-center text-3xl font-bold ${myToys.length && "hidden"
+            } my-16 `}
+        >
+          Empty
+        </h1>
+      </div>
+      <div className={`my-10 container mx-auto ${!myToys.length && 'hidden'} `}>
         <div className='md:w-1/2 mx-auto text-center space-y-4 mb-6 px-5 md:px-0'>
           <h1 className='text-center text-4xl font-bold tracking-wide'>
             Your Personal Collections
@@ -122,16 +134,7 @@ const MyToys = () => {
           </p>
         </div>
 
-        <div>
-          {" "}
-          <h1
-            className={`text-center text-3xl font-bold ${
-              myToys.length && "hidden"
-            } mb-6 `}
-          >
-            Empty
-          </h1>{" "}
-        </div>
+
         <div className='flex justify-end mb-3'>
           <div className='dropdown dropdown-end'>
             <label tabIndex={0} className='btn-regular'>
@@ -151,7 +154,7 @@ const MyToys = () => {
             </ul>
           </div>
         </div>
-        {myToys.length === 0 && (
+        {myToys?.length === 0 && (
           <div className='text-center'>
             <ClipLoader color='#08a5eb' />
           </div>
@@ -188,7 +191,7 @@ const MyToys = () => {
             </thead>
 
             <tbody>
-              {myToys.map((toy, i) => (
+              {myToys?.map((toy, i) => (
                 <ToysRow
                   key={toy._id}
                   i={i}

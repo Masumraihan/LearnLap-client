@@ -32,6 +32,7 @@ const router = createBrowserRouter([
       {
         path: "/allToys",
         element: <AllToys />,
+        loader: () => fetch('https://learlab-server-assignement.vercel.app/totalToys'),
       },
       {
         path: "/addToys",
@@ -50,8 +51,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path:"/blogs",
-        element:<Blogs/>
+        path: "/blogs",
+        element: <Blogs />
       }
     ],
   },

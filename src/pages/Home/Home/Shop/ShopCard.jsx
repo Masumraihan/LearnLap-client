@@ -31,16 +31,16 @@ const ShopCard = ({ toy, getSingleToy }) => {
     <div
       data-aos='fade-up'
       data-aos-anchor-placement="bottom-bottom"
-      className='w-full rounded-lg shadow p-8 bg-base-200'
+      className='w-full rounded-lg shadow px-6 py-8  bg-base-200'
     >
       <img
-        className=' h-48 w-full rounded-lg hover:scale-105 duration-500 ease-in-out transition-transform'
+        className='h-48 w-full rounded-lg hover:scale-105 duration-500 ease-in-out transition-transform'
         src={picture}
         alt='product image'
       />
-      <div className=' py-5 space-y-5'>
-        <div className='flex items-center justify-between my-5'>
-          <h5 className='text-2xl text-start font-semibold'>{toyName}</h5>
+      <div className=' py-4'>
+        <div className=''>
+          <h5 className='text-xl text-start font-semibold'>{toyName}</h5>
           <div className='flex gap-3'>
             <span className=' text-sm tracking-wide text-[#08a5eb]'>
               Rating:
@@ -50,7 +50,7 @@ const ShopCard = ({ toy, getSingleToy }) => {
         </div>
 
         <div className='flex items-center justify-between'>
-          <span className='text-3xl font-bold text-gray-900 tracking-tighter'>
+          <span className='text-xl font-bold text-gray-900 tracking-tighter'>
             Price : ${price}
           </span>
           {user ? (

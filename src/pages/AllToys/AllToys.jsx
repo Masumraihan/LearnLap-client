@@ -3,16 +3,24 @@ import SingleToyRow from "./SingleToyRow";
 import ToyDetailsModal from "../../components/ToyDetailsModal/ToyDetailsModal";
 import { ClipLoader } from "react-spinners";
 import useTitle from "../../Hooks/UseTitle";
+import { useLoaderData } from "react-router-dom";
 
 const AllToys = () => {
   const [searchText, setSearchText] = useState("");
   const [allToys, setAllToys] = useState([]);
   const [singleToy, setSingleToy] = useState({});
+  const [pageNumber, setPageNumber] = useState(1)
+  const { totalToys } = useLoaderData()
   useTitle("All-Toys")
 
-  const loadSingToy = (id) => {
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(totalToys / itemsPerPage);
+
+  const pageNumbers = [...Array(totalPages).keys()];
+
+  const loadSingleToy = (id) => {
     localStorage.removeItem("pathName")
-    
+
     fetch(`https://learlab-server-assignement.vercel.app/toyDetails/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -21,14 +29,17 @@ const AllToys = () => {
   };
 
   useEffect(() => {
+    
+    const url = `https://learlab-server-assignement.vercel.app/allToys?searchText=${searchText}&page=${pageNumber}&limit=${itemsPerPage}`
+    //const url = `http://localhost:5000/allToys?searchText=${searchText}&page=${pageNumber}&limit=${itemsPerPage}`
     fetch(
-      `https://learlab-server-assignement.vercel.app/allToys?searchText=${searchText}`
+      url
     )
       .then((res) => res.json())
       .then((data) => {
         setAllToys(data);
       });
-  }, [searchText]);
+  }, [searchText,pageNumber]);
 
   return (
     <div className='my-10 container mx-auto'>
@@ -100,13 +111,18 @@ const AllToys = () => {
                 key={toy._id}
                 toy={toy}
                 i={i}
-                loadSingToy={loadSingToy}
+                loadSingToy={loadSingleToy}
               />
             ))}
           </tbody>
         </table>
       </div>
       <ToyDetailsModal singleToy={singleToy} />
+      <div className="join flex justify-center">
+        <button className="join-item btn btn-regular" onClick={() => pageNumber > 1 && setPageNumber(pre => --pre)} >«</button>
+        <button className="join-item btn btn-regular">Page {pageNumber}</button>
+        <button className="join-item btn btn-regular" onClick={() => pageNumber < pageNumbers.length && setPageNumber(pre => ++pre)} >»</button>
+      </div>
     </div>
   );
 };
